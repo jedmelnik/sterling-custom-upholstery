@@ -1,0 +1,35 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import { Phone } from "lucide-react";
+import { site } from "@/lib/site";
+import { cn } from "@/lib/utils";
+
+/** Mobile sticky call bar - shown after the hero scrolls away. */
+export function StickyCta() {
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setVisible(window.scrollY > 420);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  return (
+    <div
+      className={cn(
+        "fixed inset-x-0 bottom-0 z-40 border-t border-burgundy/20 bg-[#f7f1ea]/95 p-3 backdrop-blur-md transition-transform duration-300 lg:hidden",
+        visible ? "translate-y-0" : "translate-y-full",
+      )}
+    >
+      <a
+        href={site.phoneHref}
+        className="flex h-12 w-full items-center justify-center gap-2 rounded-md bg-burgundy text-base font-semibold text-white"
+      >
+        <Phone className="size-4" aria-hidden />
+        Call {site.phone}
+      </a>
+    </div>
+  );
+}
