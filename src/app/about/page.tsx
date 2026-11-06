@@ -23,16 +23,16 @@ export default function AboutPage() {
           title="Owner-operated since 1966"
           lede="Skilled craftsmen. All work done on premise in Mountain View."
           image={{
-            src: "/images/categories/contemporary.jpg",
-            alt: "Finished contemporary sofa from Sterling Custom Upholstery",
-            width: 1400,
-            height: 833,
-            // Landmark: middle seat of the red sofa
-            focalX: 0.55,
-            focalY: 0.56,
+            src: "/images/heroes/hero-contemporary.jpg",
+            alt: "Contemporary red sofa in a white photography studio",
+            width: 1536,
+            height: 1024,
+            // Landmark: middle of the red sofa
+            focalX: 0.51,
+            focalY: 0.57,
             fillFrame: true,
             bleed: true,
-            subject: { l: 0.12, t: 0.4, r: 0.98, b: 0.78 },
+            subject: { l: 0.28, t: 0.42, r: 0.72, b: 0.72 },
           }}
           actions={
             <Button

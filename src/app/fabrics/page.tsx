@@ -24,17 +24,16 @@ export default function FabricsPage() {
           title="Find the right cloth"
           lede="Review samples in the showroom and take them home to decide."
           image={{
-            // Landscape finished piece shows cloth in situ; portrait swatches stay in the grid below
-            src: "/images/categories/classic.jpg",
-            alt: "Classic sofa upholstered in patterned fabric",
-            width: 1200,
-            height: 798,
+            src: "/images/heroes/hero-classic.jpg",
+            alt: "Classic sofa upholstered in patterned fabric in a white studio",
+            width: 1536,
+            height: 1024,
             // Landmark: floral fabric on the sofa back
             focalX: 0.5,
-            focalY: 0.46,
+            focalY: 0.53,
             fillFrame: true,
             bleed: true,
-            subject: { l: 0.02, t: 0.3, r: 0.99, b: 0.7 },
+            subject: { l: 0.26, t: 0.38, r: 0.74, b: 0.74 },
           }}
           actions={
             <Button

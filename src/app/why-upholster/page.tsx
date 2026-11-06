@@ -23,17 +23,16 @@ export default function WhyUpholsterPage() {
           title="Keep the frame. Renew the rest."
           lede="A solid hardwood frame is often worth more than buying new."
           image={{
-            src: "/images/categories/classic.jpg",
-            alt: "Classic living room seating after custom upholstery",
-            width: 1200,
-            height: 798,
+            src: "/images/heroes/hero-classic.jpg",
+            alt: "Classic floral sofa in a white photography studio",
+            width: 1536,
+            height: 1024,
             // Landmark: center of the floral sofa back
-            focalX: 0.52,
-            focalY: 0.48,
+            focalX: 0.5,
+            focalY: 0.53,
             fillFrame: true,
             bleed: true,
-            // Sofa + nearby seating - tight enough to fill the short banner
-            subject: { l: 0.02, t: 0.32, r: 0.99, b: 0.72 },
+            subject: { l: 0.26, t: 0.38, r: 0.74, b: 0.74 },
           }}
           actions={
             <Button

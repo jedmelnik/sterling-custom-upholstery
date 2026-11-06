@@ -24,17 +24,16 @@ export default function PortfolioPage() {
           title="Before and after"
           lede="Real pieces rebuilt in our Mountain View shop."
           image={{
-            src: "/images/portfolio/after22.jpg",
-            alt: "Statement sofa after custom upholstery",
-            width: 765,
-            height: 400,
-            // Landmark: tapestry pillows on the finished sofa
+            src: "/images/heroes/hero-portfolio.jpg",
+            alt: "Sofa with tapestry pillows in a white photography studio",
+            width: 1536,
+            height: 1024,
+            // Landmark: center between the tapestry pillows
             focalX: 0.5,
-            focalY: 0.45,
+            focalY: 0.55,
             fillFrame: true,
             bleed: true,
-            // Pillows band - short enough for ≥70% ultrawide cover
-            subject: { l: 0.04, t: 0.18, r: 0.96, b: 0.66 },
+            subject: { l: 0.28, t: 0.48, r: 0.72, b: 0.8 },
           }}
           actions={
             <Button

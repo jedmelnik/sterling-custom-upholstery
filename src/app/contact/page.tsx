@@ -23,17 +23,16 @@ export default function ContactPage() {
           title="Request an estimate"
           lede="Call today or send a photo of your piece."
           image={{
-            src: "/images/categories/commercial.jpg",
-            alt: "Commercial bar stools upholstered for a dining space",
-            width: 700,
-            height: 525,
-            // Landmark: center of the colorful stool tops
+            src: "/images/heroes/hero-commercial.jpg",
+            alt: "Colorful upholstered rolling stools in a white photography studio",
+            width: 1536,
+            height: 1024,
+            // Landmark: center of the stool cluster
             focalX: 0.5,
-            focalY: 0.42,
+            focalY: 0.52,
             fillFrame: true,
             bleed: true,
-            // Stool tops + a little base - short enough to fill the plane
-            subject: { l: 0.0, t: 0.28, r: 1.0, b: 0.62 },
+            subject: { l: 0.28, t: 0.36, r: 0.78, b: 0.7 },
           }}
           actions={
             <Button
