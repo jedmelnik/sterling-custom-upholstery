@@ -68,9 +68,13 @@ export function PageHero({
         />
         <div
           className={`absolute inset-0 hidden bg-gradient-to-r lg:block ${
-            image.bleed
-              ? "from-[#3d1212] from-0% via-[#3d1212]/88 via-[28%] to-transparent to-[50%]"
-              : "from-[#3d1212] from-0% via-[#3d1212]/90 via-[24%] to-transparent to-[48%]"
+            home && image.bleed
+              ? // Hold dark under the home lockup (incl. wide "Sterling Custom")
+                // so the subject-safe edge is readable against the studio plate.
+                "from-[#3d1212] from-0% via-[#3d1212]/94 via-[36%] to-transparent to-[58%]"
+              : image.bleed
+                ? "from-[#3d1212] from-0% via-[#3d1212]/88 via-[28%] to-transparent to-[50%]"
+                : "from-[#3d1212] from-0% via-[#3d1212]/90 via-[24%] to-transparent to-[48%]"
           }`}
           aria-hidden
         />
@@ -99,11 +103,15 @@ export function PageHero({
           }`}
         >
           {kicker ? (
-            <p className="text-[0.7rem] font-semibold uppercase tracking-[0.2em] text-white/65 md:text-xs">
+            <p
+              data-hero-box="text"
+              className="text-[0.7rem] font-semibold uppercase tracking-[0.2em] text-white/65 md:text-xs"
+            >
               {kicker}
             </p>
           ) : null}
           <h1
+            data-hero-box="text"
             className={`mt-2 font-display tracking-tight text-white ${
               home
                 ? "text-balance text-[clamp(2.35rem,6.5vw,4.25rem)] leading-[1.05]"
@@ -113,10 +121,12 @@ export function PageHero({
             {title}
           </h1>
           <div
+            data-hero-box="rule"
             className={`h-[3px] w-20 bg-gold md:w-24 ${home ? "mt-3" : "mt-2.5"}`}
           />
           {lede ? (
             <p
+              data-hero-box="text"
               className={`text-white/80 ${
                 home
                   ? "mt-4 max-w-md text-pretty text-base leading-relaxed md:text-lg"
@@ -129,6 +139,7 @@ export function PageHero({
           <span className="sr-only">{image.alt}</span>
           {actions ? (
             <div
+              data-hero-actions
               className={`flex flex-wrap items-center gap-3 ${home ? "mt-6" : "mt-4"}`}
             >
               {actions}

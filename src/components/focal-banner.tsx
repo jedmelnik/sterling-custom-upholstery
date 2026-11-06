@@ -53,6 +53,83 @@ const RIGHT_FADE = 220;
 /** Phone and tablet share the centered crop. Desktop starts at Tailwind `lg`. */
 const DESKTOP_MIN = 1024;
 
+type Rect = { left: number; top: number; right: number; bottom: number };
+
+function expandRect(acc: Rect | null, r: DOMRect | Rect): Rect {
+  if (!acc) {
+    return { left: r.left, top: r.top, right: r.right, bottom: r.bottom };
+  }
+  return {
+    left: Math.min(acc.left, r.left),
+    top: Math.min(acc.top, r.top),
+    right: Math.max(acc.right, r.right),
+    bottom: Math.max(acc.bottom, r.bottom),
+  };
+}
+
+/**
+ * Tight 2D union around the visible lockup.
+ * Text: per-character Range boxes (includes letter-spacing; never the
+ * block/column layout width). Rule + CTA controls: element boxes.
+ * The actions flex row wrapper is intentionally ignored — it stretches
+ * to the column and was inflating text-safe by hundreds of pixels.
+ */
+function measureTightLockup(lockup: HTMLElement): Rect | null {
+  let acc: Rect | null = null;
+
+  const absorb = (r: DOMRect | Rect) => {
+    if (r.right - r.left < 0.5 || r.bottom - r.top < 0.5) return;
+    acc = expandRect(acc, r);
+  };
+
+  const absorbGlyphs = (el: HTMLElement) => {
+    const walk = (node: Node) => {
+      if (node.nodeType === Node.TEXT_NODE) {
+        const text = node.textContent || "";
+        for (let i = 0; i < text.length; i++) {
+          if (text[i] === "\n") continue;
+          const range = document.createRange();
+          range.setStart(node, i);
+          range.setEnd(node, i + 1);
+          const r = range.getBoundingClientRect();
+          // Skip blank advance slots (trailing spaces, zero-ink).
+          if (text[i] === " " && r.width < 1) continue;
+          absorb(r);
+        }
+        return;
+      }
+      if (node.nodeType === Node.ELEMENT_NODE) {
+        if ((node as HTMLElement).tagName === "BR") return;
+        for (const child of node.childNodes) walk(child);
+      }
+    };
+    walk(el);
+  };
+
+  for (const el of lockup.querySelectorAll<HTMLElement>("[data-hero-box]")) {
+    const style = getComputedStyle(el);
+    if (style.display === "none" || style.visibility === "hidden") continue;
+
+    if (el.dataset.heroBox === "rule") {
+      absorb(el.getBoundingClientRect());
+      continue;
+    }
+    absorbGlyphs(el);
+  }
+
+  // CTA buttons/links — shrink-wrapped controls, never the flex row wrapper.
+  const actions = lockup.querySelector("[data-hero-actions]");
+  if (actions) {
+    for (const el of actions.querySelectorAll<HTMLElement>("a, button")) {
+      const style = getComputedStyle(el);
+      if (style.display === "none" || style.visibility === "hidden") continue;
+      absorb(el.getBoundingClientRect());
+    }
+  }
+
+  return acc;
+}
+
 /**
  * Pins the image landmark in the open half of the banner.
  * object-position cannot do this: one percentage is both the image point
@@ -90,6 +167,8 @@ export function FocalBanner({
 
       // Home banner: fit the sofa silhouette into the subject-safe box
       // (text-safe top/bottom, from text-safe right → banner right).
+      // text-safe = tight union of visible lockup glyphs/CTAs — never the
+      // column/container width (block wrappers stretch and inflate the box).
       if (desktop && fitSubjectToSafeRegion && subject) {
         const section = frame.closest("section");
         const lockup = section?.querySelector(
@@ -98,32 +177,12 @@ export function FocalBanner({
         if (section && lockup) {
           const sr = section.getBoundingClientRect();
           const fr = frame.getBoundingClientRect();
-          const kids = [
-            ...lockup.querySelectorAll("p, h1, div, a, button"),
-          ].filter((el) => {
-            const s = getComputedStyle(el);
-            const r = el.getBoundingClientRect();
-            return (
-              s.display !== "none" &&
-              s.visibility !== "hidden" &&
-              r.width > 0 &&
-              r.height > 0
-            );
-          });
-          let tL = Infinity;
-          let tT = Infinity;
-          let tR = -Infinity;
-          let tB = -Infinity;
-          for (const el of kids) {
-            const r = el.getBoundingClientRect();
-            tL = Math.min(tL, r.left);
-            tT = Math.min(tT, r.top);
-            tR = Math.max(tR, r.right);
-            tB = Math.max(tB, r.bottom);
-          }
-          if (Number.isFinite(tR) && tB > tT) {
+          const textSafe = measureTightLockup(lockup);
+          if (textSafe) {
+            const { left: tL, top: tT, right: tR, bottom: tB } = textSafe;
             // Subject-safe ∩ media plane (photo cannot paint the side fill).
-            const pad = 12;
+            // 8px gap so sofa never kisses the glyph edge.
+            const pad = 8;
             const ssL = tR + pad;
             const ssT = tT;
             const ssR = Math.min(sr.right, fr.right) - pad;
@@ -145,8 +204,8 @@ export function FocalBanner({
             // Center horizontally in subject-safe; bias slightly down in the band.
             const sofaLeft = ssL + (ssW - sofaW) / 2;
             const sofaTop = ssT + (ssH - sofaH) * 0.55;
-            let left = sofaLeft - subject.l * sW - fr.left;
-            let top = sofaTop - subject.t * sH - fr.top;
+            const left = sofaLeft - subject.l * sW - fr.left;
+            const top = sofaTop - subject.t * sH - fr.top;
 
             setBox({
               left,
