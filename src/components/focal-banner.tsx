@@ -25,6 +25,13 @@ type Props = {
    * covers more of the frame. Tall (mobile) frames ignore it and pin the focal.
    */
   fillFrame?: boolean;
+  /**
+   * Desktop/ultrawide only: scale+place so `subject` (complete silhouette)
+   * sits fully inside Jed's subject-safe region — same vertical band as the
+   * text lockup (`[data-hero-lockup]`), from lockup right to banner right.
+   * Phone/tablet keep the landmark cover crop. Regions stay invisible.
+   */
+  fitSubjectToSafeRegion?: boolean;
   /** Brand fill. On ultrawide, the photo's right edge fades into this color. */
   edgeColor?: string;
 };
@@ -62,6 +69,7 @@ export function FocalBanner({
   targetY = 0.62,
   subject,
   fillFrame = false,
+  fitSubjectToSafeRegion = false,
   edgeColor = "#3d1212",
 }: Props) {
   const frameRef = useRef<HTMLDivElement>(null);
@@ -79,7 +87,84 @@ export function FocalBanner({
       const desktop = cW >= DESKTOP_MIN;
       const fadeRight = window.innerWidth >= ULTRAWIDE_MIN;
       const wide = cW / cH >= width / height;
-      const frameSubject = desktop && wide && fillFrame && subject ? subject : null;
+
+      // Home banner: fit the sofa silhouette into the subject-safe box
+      // (text-safe top/bottom, from text-safe right → banner right).
+      if (desktop && fitSubjectToSafeRegion && subject) {
+        const section = frame.closest("section");
+        const lockup = section?.querySelector(
+          "[data-hero-lockup]",
+        ) as HTMLElement | null;
+        if (section && lockup) {
+          const sr = section.getBoundingClientRect();
+          const fr = frame.getBoundingClientRect();
+          const kids = [
+            ...lockup.querySelectorAll("p, h1, div, a, button"),
+          ].filter((el) => {
+            const s = getComputedStyle(el);
+            const r = el.getBoundingClientRect();
+            return (
+              s.display !== "none" &&
+              s.visibility !== "hidden" &&
+              r.width > 0 &&
+              r.height > 0
+            );
+          });
+          let tL = Infinity;
+          let tT = Infinity;
+          let tR = -Infinity;
+          let tB = -Infinity;
+          for (const el of kids) {
+            const r = el.getBoundingClientRect();
+            tL = Math.min(tL, r.left);
+            tT = Math.min(tT, r.top);
+            tR = Math.max(tR, r.right);
+            tB = Math.max(tB, r.bottom);
+          }
+          if (Number.isFinite(tR) && tB > tT) {
+            // Subject-safe ∩ media plane (photo cannot paint the side fill).
+            const pad = 12;
+            const ssL = tR + pad;
+            const ssT = tT;
+            const ssR = Math.min(sr.right, fr.right) - pad;
+            const ssB = tB;
+            const ssW = Math.max(1, ssR - ssL);
+            const ssH = Math.max(1, ssB - ssT);
+
+            const subW = Math.max(0.05, subject.r - subject.l) * width;
+            const subH = Math.max(0.05, subject.b - subject.t) * height;
+            let scale = Math.min(ssW / subW, ssH / subH);
+            // Keep a touch of studio margin around the silhouette.
+            scale *= 0.92;
+
+            const sW = width * scale;
+            const sH = height * scale;
+            const sofaW = subW * scale;
+            const sofaH = subH * scale;
+
+            // Center horizontally in subject-safe; bias slightly down in the band.
+            const sofaLeft = ssL + (ssW - sofaW) / 2;
+            const sofaTop = ssT + (ssH - sofaH) * 0.55;
+            let left = sofaLeft - subject.l * sW - fr.left;
+            let top = sofaTop - subject.t * sH - fr.top;
+
+            setBox({
+              left,
+              top,
+              width: sW,
+              height: sH,
+              mask: false,
+              fadeRight,
+            });
+            return;
+          }
+        }
+      }
+
+      const frameSubject =
+        desktop && wide && fillFrame && subject && !fitSubjectToSafeRegion
+          ? subject
+          : null;
 
       if (desktop && wide && !frameSubject) {
         const scale = Math.min(cW / width, cH / height);
@@ -161,6 +246,10 @@ export function FocalBanner({
     place();
     const observer = new ResizeObserver(place);
     observer.observe(frame);
+    const section = frame.closest("section");
+    const lockup = section?.querySelector("[data-hero-lockup]");
+    if (section) observer.observe(section);
+    if (lockup) observer.observe(lockup);
     window.addEventListener("resize", place);
     return () => {
       observer.disconnect();
@@ -178,6 +267,7 @@ export function FocalBanner({
     subject?.r,
     subject?.b,
     fillFrame,
+    fitSubjectToSafeRegion,
   ]);
 
   const mask = box?.mask

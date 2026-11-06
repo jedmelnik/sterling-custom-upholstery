@@ -24,8 +24,8 @@ export default function HomePage() {
           }
           lede="Fine craftsmanship for sofas, chairs, antiques, and commercial seating - with free consultation, pickup, and delivery."
           ledeOnMobile
-          // Landmark: center of the red sofa seat cushion
-          // Landmark: center of red sofa seat (gpt-image-2 white studio)
+          // Landmark: center of red sofa seat. subject = full silhouette
+          // (incl. legs) for desktop/ultrawide subject-safe fit.
           image={{
             src: "/images/heroes/hero-contemporary.jpg",
             alt: "Contemporary red sofa in a white photography studio",
@@ -35,7 +35,8 @@ export default function HomePage() {
             focalY: 0.57,
             fillFrame: true,
             bleed: true,
-            subject: { l: 0.28, t: 0.42, r: 0.72, b: 0.72 },
+            fitSubjectToSafeRegion: true,
+            subject: { l: 0.31, t: 0.46, r: 0.7, b: 0.68 },
           }}
           actions={
             <>

@@ -12,6 +12,8 @@ export type HeroImage = {
   subject?: { l: number; t: number; r: number; b: number };
   fillFrame?: boolean;
   bleed?: boolean;
+  /** Home only: keep subject silhouette inside Jed's subject-safe region. */
+  fitSubjectToSafeRegion?: boolean;
 };
 
 type Props = {
@@ -61,6 +63,7 @@ export function PageHero({
           focalY={image.focalY}
           subject={image.subject}
           fillFrame={image.fillFrame}
+          fitSubjectToSafeRegion={image.fitSubjectToSafeRegion}
           edgeColor={HERO_FILL}
         />
         <div
@@ -90,6 +93,7 @@ export function PageHero({
         }`}
       >
         <div
+          data-hero-lockup
           className={`animate-rise w-full ${
             home ? "max-w-xl xl:max-w-2xl" : "max-w-md lg:max-w-lg xl:max-w-xl"
           }`}
