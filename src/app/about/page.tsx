@@ -38,7 +38,7 @@ export default function AboutPage() {
             focalY: 0.57,
             fillFrame: true,
             bleed: true,
-            fitSubjectToSafeRegion: true,
+            fitSubjectToSafeRegion: "nav-banner",
             subject: { l: 0.31, t: 0.46, r: 0.7, b: 0.68 },
           }}
           actions={

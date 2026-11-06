@@ -33,7 +33,7 @@ export default function FabricsPage() {
             focalY: 0.53,
             fillFrame: true,
             bleed: true,
-            fitSubjectToSafeRegion: true,
+            fitSubjectToSafeRegion: "nav-banner",
             subject: { l: 0.27, t: 0.34, r: 0.73, b: 0.73 },
           }}
           actions={

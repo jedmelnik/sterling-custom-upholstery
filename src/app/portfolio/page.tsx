@@ -33,7 +33,7 @@ export default function PortfolioPage() {
             focalY: 0.55,
             fillFrame: true,
             bleed: true,
-            fitSubjectToSafeRegion: true,
+            fitSubjectToSafeRegion: "nav-banner",
             subject: { l: 0.26, t: 0.34, r: 0.73, b: 0.8 },
           }}
           actions={

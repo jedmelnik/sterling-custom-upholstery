@@ -32,7 +32,7 @@ export default function ContactPage() {
             focalY: 0.52,
             fillFrame: true,
             bleed: true,
-            fitSubjectToSafeRegion: true,
+            fitSubjectToSafeRegion: "nav-banner",
             subject: { l: 0.27, t: 0.37, r: 0.74, b: 0.71 },
           }}
           actions={
