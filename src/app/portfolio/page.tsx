@@ -33,8 +33,8 @@ export default function PortfolioPage() {
             focalY: 0.45,
             fillFrame: true,
             bleed: true,
-            // Pillows + sofa band - short enough to fill the plane
-            subject: { l: 0.04, t: 0.16, r: 0.96, b: 0.7 },
+            // Pillows band - short enough for ≥70% ultrawide cover
+            subject: { l: 0.04, t: 0.18, r: 0.96, b: 0.66 },
           }}
           actions={
             <Button
