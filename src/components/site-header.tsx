@@ -61,6 +61,7 @@ export function SiteHeader({ variant = "overlay" }: SiteHeaderProps) {
 
   return (
     <header
+      data-site-header
       className={cn(
         "fixed inset-x-0 top-0 z-50 transition-[background-color,box-shadow,border-color] duration-300 ease-out",
         solid
@@ -68,7 +69,10 @@ export function SiteHeader({ variant = "overlay" }: SiteHeaderProps) {
           : "border-b border-transparent bg-transparent",
       )}
     >
-      <div className="site-wrap flex items-center justify-between gap-3 py-3 md:gap-4 md:py-3.5">
+      <div
+        data-site-nav
+        className="site-wrap flex items-center justify-between gap-3 py-3 md:gap-4 md:py-3.5"
+      >
         <BrandMark
           tone={solid ? "dark" : "light"}
           onClick={() => setMenuOpen(false)}

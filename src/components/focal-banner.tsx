@@ -27,11 +27,12 @@ type Props = {
   fillFrame?: boolean;
   /**
    * Desktop/ultrawide only: scale+place so `subject` (complete silhouette)
-   * sits fully inside Jed's subject-safe region — same vertical band as the
-   * text lockup (`[data-hero-lockup]`), from lockup right to banner right.
-   * Phone/tablet keep the landmark cover crop. Regions stay invisible.
+   * sits fully inside Jed's subject-safe region.
+   * - `true`: vertical band = text-lockup top/bottom
+   * - `"nav-banner"`: top = `[data-site-nav]` bottom; bottom = banner bottom
+   * Left = tight lockup right; right = banner right. Phone/tablet unchanged.
    */
-  fitSubjectToSafeRegion?: boolean;
+  fitSubjectToSafeRegion?: boolean | "nav-banner";
   /** Brand fill. On ultrawide, the photo's right edge fades into this color. */
   edgeColor?: string;
 };
@@ -165,10 +166,8 @@ export function FocalBanner({
       const fadeRight = window.innerWidth >= ULTRAWIDE_MIN;
       const wide = cW / cH >= width / height;
 
-      // Home banner: fit the sofa silhouette into the subject-safe box
-      // (text-safe top/bottom, from text-safe right → banner right).
-      // text-safe = tight union of visible lockup glyphs/CTAs — never the
-      // column/container width (block wrappers stretch and inflate the box).
+      // Fit the sofa silhouette into Jed's subject-safe box.
+      // text-safe left edge = tight lockup glyph/CTA union (never column width).
       if (desktop && fitSubjectToSafeRegion && subject) {
         const section = frame.closest("section");
         const lockup = section?.querySelector(
@@ -179,14 +178,23 @@ export function FocalBanner({
           const fr = frame.getBoundingClientRect();
           const textSafe = measureTightLockup(lockup);
           if (textSafe) {
-            const { left: tL, top: tT, right: tR, bottom: tB } = textSafe;
-            // Subject-safe ∩ media plane (photo cannot paint the side fill).
-            // 8px gap so sofa never kisses the glyph edge.
+            const { right: tR, top: tT, bottom: tB } = textSafe;
             const pad = 8;
             const ssL = tR + pad;
-            const ssT = tT;
             const ssR = Math.min(sr.right, fr.right) - pad;
-            const ssB = tB;
+            // Default: text-lockup vertical band. nav-banner: nav bottom → banner bottom.
+            let ssT = tT;
+            let ssB = tB;
+            if (fitSubjectToSafeRegion === "nav-banner") {
+              const nav = document.querySelector(
+                "[data-site-nav]",
+              ) as HTMLElement | null;
+              const navBottom = nav
+                ? nav.getBoundingClientRect().bottom
+                : sr.top;
+              ssT = Math.max(navBottom, sr.top);
+              ssB = sr.bottom;
+            }
             const ssW = Math.max(1, ssR - ssL);
             const ssH = Math.max(1, ssB - ssT);
 
@@ -201,7 +209,7 @@ export function FocalBanner({
             const sofaW = subW * scale;
             const sofaH = subH * scale;
 
-            // Center horizontally in subject-safe; bias slightly down in the band.
+            // Center in subject-safe; slight downward bias in the open band.
             const sofaLeft = ssL + (ssW - sofaW) / 2;
             const sofaTop = ssT + (ssH - sofaH) * 0.55;
             const left = sofaLeft - subject.l * sW - fr.left;
@@ -307,8 +315,10 @@ export function FocalBanner({
     observer.observe(frame);
     const section = frame.closest("section");
     const lockup = section?.querySelector("[data-hero-lockup]");
+    const nav = document.querySelector("[data-site-nav]");
     if (section) observer.observe(section);
     if (lockup) observer.observe(lockup);
+    if (nav) observer.observe(nav);
     window.addEventListener("resize", place);
     return () => {
       observer.disconnect();

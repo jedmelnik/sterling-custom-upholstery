@@ -33,13 +33,13 @@ export default function WhyUpholsterPage() {
             alt: "Classic floral sofa in a white photography studio",
             width: 1536,
             height: 1024,
-            // Landmark: floral sofa seat; subject = full silhouette for
-            // desktop/ultrawide Jed subject-safe fit (tight lockup union).
+            // Landmark: floral sofa seat; subject = full silhouette.
+            // Why-only: subject-safe = nav bottom → banner bottom.
             focalX: 0.5,
             focalY: 0.53,
             fillFrame: true,
             bleed: true,
-            fitSubjectToSafeRegion: true,
+            fitSubjectToSafeRegion: "nav-banner",
             subject: { l: 0.27, t: 0.34, r: 0.73, b: 0.73 },
           }}
           actions={

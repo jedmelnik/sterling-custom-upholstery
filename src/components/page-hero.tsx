@@ -12,8 +12,11 @@ export type HeroImage = {
   subject?: { l: number; t: number; r: number; b: number };
   fillFrame?: boolean;
   bleed?: boolean;
-  /** Keep subject silhouette inside Jed's subject-safe region (desktop+). */
-  fitSubjectToSafeRegion?: boolean;
+  /**
+   * Keep subject silhouette inside Jed's subject-safe region (desktop+).
+   * `true` = text-lockup vertical band; `"nav-banner"` = nav bottom → banner bottom.
+   */
+  fitSubjectToSafeRegion?: boolean | "nav-banner";
 };
 
 type Props = {
