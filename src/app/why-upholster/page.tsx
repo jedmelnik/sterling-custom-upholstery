@@ -27,12 +27,14 @@ export default function WhyUpholsterPage() {
             alt: "Classic floral sofa in a white photography studio",
             width: 1536,
             height: 1024,
-            // Landmark: center of the floral sofa back
+            // Landmark: floral sofa seat; subject = full silhouette for
+            // desktop/ultrawide Jed subject-safe fit (tight lockup union).
             focalX: 0.5,
             focalY: 0.53,
             fillFrame: true,
             bleed: true,
-            subject: { l: 0.26, t: 0.38, r: 0.74, b: 0.74 },
+            fitSubjectToSafeRegion: true,
+            subject: { l: 0.28, t: 0.35, r: 0.72, b: 0.71 },
           }}
           actions={
             <Button
