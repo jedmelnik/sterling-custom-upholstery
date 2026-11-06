@@ -27,11 +27,13 @@ export default function ContactPage() {
             alt: "Commercial bar stools upholstered for a dining space",
             width: 700,
             height: 525,
+            // Landmark: center of the colorful stool tops
             focalX: 0.5,
-            focalY: 0.45,
+            focalY: 0.42,
             fillFrame: true,
             bleed: true,
-            subject: { l: 0.05, t: 0.1, r: 0.95, b: 0.9 },
+            // Stool tops + a little base - short enough to fill the plane
+            subject: { l: 0.0, t: 0.28, r: 1.0, b: 0.62 },
           }}
           actions={
             <Button

@@ -27,11 +27,12 @@ export default function AboutPage() {
             alt: "Finished contemporary sofa from Sterling Custom Upholstery",
             width: 1400,
             height: 833,
+            // Landmark: middle seat of the red sofa
             focalX: 0.55,
-            focalY: 0.5,
+            focalY: 0.56,
             fillFrame: true,
             bleed: true,
-            subject: { l: 0.15, t: 0.2, r: 0.95, b: 0.88 },
+            subject: { l: 0.12, t: 0.4, r: 0.98, b: 0.78 },
           }}
           actions={
             <Button

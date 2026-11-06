@@ -27,11 +27,13 @@ export default function WhyUpholsterPage() {
             alt: "Classic living room seating after custom upholstery",
             width: 1200,
             height: 798,
-            focalX: 0.58,
+            // Landmark: center of the floral sofa back
+            focalX: 0.52,
             focalY: 0.48,
             fillFrame: true,
             bleed: true,
-            subject: { l: 0.2, t: 0.2, r: 0.98, b: 0.85 },
+            // Sofa + nearby seating - tight enough to fill the short banner
+            subject: { l: 0.02, t: 0.32, r: 0.99, b: 0.72 },
           }}
           actions={
             <Button

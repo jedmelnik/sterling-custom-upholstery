@@ -28,11 +28,13 @@ export default function PortfolioPage() {
             alt: "Statement sofa after custom upholstery",
             width: 765,
             height: 400,
-            focalX: 0.55,
+            // Landmark: tapestry pillows on the finished sofa
+            focalX: 0.5,
             focalY: 0.45,
             fillFrame: true,
             bleed: true,
-            subject: { l: 0.05, t: 0.05, r: 0.98, b: 0.95 },
+            // Pillows + sofa band - short enough to fill the plane
+            subject: { l: 0.04, t: 0.16, r: 0.96, b: 0.7 },
           }}
           actions={
             <Button

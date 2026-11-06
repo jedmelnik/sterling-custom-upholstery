@@ -75,8 +75,9 @@ export function PageHero({
           className="absolute inset-0 bg-[#3d1212]/55 lg:hidden"
           aria-hidden
         />
+        {/* Soft top wash so white nav stays readable over light studio photos */}
         <div
-          className="absolute inset-x-0 top-0 h-20 bg-gradient-to-b from-[#3d1212]/45 to-transparent"
+          className="absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-[#3d1212]/70 via-[#3d1212]/35 to-transparent"
           aria-hidden
         />
       </div>

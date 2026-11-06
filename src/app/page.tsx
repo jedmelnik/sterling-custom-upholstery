@@ -24,15 +24,18 @@ export default function HomePage() {
           }
           lede="Fine craftsmanship for sofas, chairs, antiques, and commercial seating - with free consultation, pickup, and delivery."
           ledeOnMobile
-          // Focal: center of the contemporary sofa seat / arm
+          // Landmark: center of the red sofa seat cushion
           image={{
             src: "/images/categories/contemporary.jpg",
             alt: "Contemporary sofa with light patterned upholstery",
             width: 1400,
             height: 833,
-            focalX: 0.62,
-            focalY: 0.55,
-            subject: { l: 0.18, t: 0.18, r: 0.98, b: 0.92 },
+            focalX: 0.55,
+            focalY: 0.58,
+            fillFrame: true,
+            bleed: true,
+            // Sofa body only - skip excess studio white above/below
+            subject: { l: 0.1, t: 0.34, r: 0.98, b: 0.86 },
           }}
           actions={
             <>

@@ -24,15 +24,17 @@ export default function FabricsPage() {
           title="Find the right cloth"
           lede="Review samples in the showroom and take them home to decide."
           image={{
-            src: "/images/fabrics/Traditional-Textures-and-Classic-Tapestries.jpg",
-            alt: "Traditional texture and tapestry fabric samples",
-            width: 415,
-            height: 480,
+            // Landscape finished piece shows cloth in situ; portrait swatches stay in the grid below
+            src: "/images/categories/classic.jpg",
+            alt: "Classic sofa upholstered in patterned fabric",
+            width: 1200,
+            height: 798,
+            // Landmark: floral fabric on the sofa back
             focalX: 0.5,
-            focalY: 0.45,
+            focalY: 0.46,
             fillFrame: true,
             bleed: true,
-            subject: { l: 0.05, t: 0.1, r: 0.95, b: 0.9 },
+            subject: { l: 0.02, t: 0.3, r: 0.99, b: 0.7 },
           }}
           actions={
             <Button
