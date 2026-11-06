@@ -32,7 +32,8 @@ export default function AboutPage() {
             focalY: 0.57,
             fillFrame: true,
             bleed: true,
-            subject: { l: 0.28, t: 0.42, r: 0.72, b: 0.72 },
+            fitSubjectToSafeRegion: true,
+            subject: { l: 0.31, t: 0.46, r: 0.7, b: 0.68 },
           }}
           actions={
             <Button

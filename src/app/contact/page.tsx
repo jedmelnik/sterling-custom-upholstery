@@ -32,7 +32,8 @@ export default function ContactPage() {
             focalY: 0.52,
             fillFrame: true,
             bleed: true,
-            subject: { l: 0.28, t: 0.36, r: 0.78, b: 0.7 },
+            fitSubjectToSafeRegion: true,
+            subject: { l: 0.27, t: 0.37, r: 0.74, b: 0.71 },
           }}
           actions={
             <Button

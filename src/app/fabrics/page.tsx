@@ -33,7 +33,8 @@ export default function FabricsPage() {
             focalY: 0.53,
             fillFrame: true,
             bleed: true,
-            subject: { l: 0.26, t: 0.38, r: 0.74, b: 0.74 },
+            fitSubjectToSafeRegion: true,
+            subject: { l: 0.28, t: 0.35, r: 0.72, b: 0.71 },
           }}
           actions={
             <Button

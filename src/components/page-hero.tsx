@@ -12,7 +12,7 @@ export type HeroImage = {
   subject?: { l: number; t: number; r: number; b: number };
   fillFrame?: boolean;
   bleed?: boolean;
-  /** Home only: keep subject silhouette inside Jed's subject-safe region. */
+  /** Keep subject silhouette inside Jed's subject-safe region (desktop+). */
   fitSubjectToSafeRegion?: boolean;
 };
 
@@ -30,8 +30,18 @@ type Props = {
 export const HERO_FILL = "#3d1212";
 
 /**
+ * Shared banner stage height — home is the source of truth.
+ * Breakpoints match home's content-driven heights (413 / 480 / 518) so every
+ * PageHero renders the same stage height at the same viewport.
+ */
+export const HERO_STAGE_CLASS =
+  "site-wrap relative flex items-end " +
+  "min-h-[25.8125rem] md:min-h-[30rem] lg:min-h-[32.375rem] " +
+  "pb-9 pt-24 md:pb-12 md:pt-28";
+
+/**
  * Shared banner frame - website-banners skill:
- * - Height hugs the type lockup (+ modest padding), not a tall vw photo stage
+ * - Shared HERO_STAGE_CLASS keeps home + interiors the same height
  * - Left-justified type → gradient from the left; fades before the subject
  * - Photo + gradient on a centered media plane max 1600px; brand fill beyond
  */
@@ -89,13 +99,7 @@ export function PageHero({
         />
       </div>
 
-      <div
-        className={`site-wrap relative flex items-end ${
-          home
-            ? "min-h-[clamp(14rem,24vw,26rem)] pb-9 pt-24 md:pb-12 md:pt-28"
-            : "min-h-0 pb-7 pt-24 md:pb-8 md:pt-24"
-        }`}
-      >
+      <div className={HERO_STAGE_CLASS}>
         <div
           data-hero-lockup
           className={`animate-rise w-full ${

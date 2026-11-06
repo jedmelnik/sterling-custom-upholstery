@@ -33,7 +33,8 @@ export default function PortfolioPage() {
             focalY: 0.55,
             fillFrame: true,
             bleed: true,
-            subject: { l: 0.28, t: 0.48, r: 0.72, b: 0.8 },
+            fitSubjectToSafeRegion: true,
+            subject: { l: 0.27, t: 0.35, r: 0.72, b: 0.79 },
           }}
           actions={
             <Button
