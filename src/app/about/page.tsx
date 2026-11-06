@@ -20,7 +20,13 @@ export default function AboutPage() {
       <main className="flex flex-1 flex-col pb-20 lg:pb-0">
         <PageHero
           kicker="Who we are"
-          title="Owner-operated since 1966"
+          title={
+            <>
+              Owner-operated
+              <br />
+              since 1966
+            </>
+          }
           lede="Skilled craftsmen. All work done on premise in Mountain View."
           image={{
             src: "/images/heroes/hero-contemporary.jpg",

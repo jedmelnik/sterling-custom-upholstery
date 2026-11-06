@@ -78,9 +78,9 @@ export function PageHero({
         />
         <div
           className={`absolute inset-0 hidden bg-gradient-to-r lg:block ${
-            home && image.bleed
-              ? // Hold dark under the home lockup (incl. wide "Sterling Custom")
-                // so the subject-safe edge is readable against the studio plate.
+            image.bleed && (home || image.fitSubjectToSafeRegion)
+              ? // Hold dark under wide lockups so text-safe extrema stay readable
+                // against the studio plate (home + safe-region interiors).
                 "from-[#3d1212] from-0% via-[#3d1212]/94 via-[36%] to-transparent to-[58%]"
               : image.bleed
                 ? "from-[#3d1212] from-0% via-[#3d1212]/88 via-[28%] to-transparent to-[50%]"

@@ -20,7 +20,13 @@ export default function WhyUpholsterPage() {
       <main className="flex flex-1 flex-col pb-20 lg:pb-0">
         <PageHero
           kicker="Why upholster"
-          title="Keep the frame. Renew the rest."
+          title={
+            <>
+              Keep the frame.
+              <br />
+              Renew the rest.
+            </>
+          }
           lede="A solid hardwood frame is often worth more than buying new."
           image={{
             src: "/images/heroes/hero-classic.jpg",
@@ -34,7 +40,7 @@ export default function WhyUpholsterPage() {
             fillFrame: true,
             bleed: true,
             fitSubjectToSafeRegion: true,
-            subject: { l: 0.28, t: 0.35, r: 0.72, b: 0.71 },
+            subject: { l: 0.27, t: 0.34, r: 0.73, b: 0.73 },
           }}
           actions={
             <Button

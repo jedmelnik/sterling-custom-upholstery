@@ -34,7 +34,7 @@ export default function FabricsPage() {
             fillFrame: true,
             bleed: true,
             fitSubjectToSafeRegion: true,
-            subject: { l: 0.28, t: 0.35, r: 0.72, b: 0.71 },
+            subject: { l: 0.27, t: 0.34, r: 0.73, b: 0.73 },
           }}
           actions={
             <Button
