@@ -33,14 +33,13 @@ type Props = {
 export const HERO_FILL = "#3d1212";
 
 /**
- * Shared banner stage height — home is the source of truth.
- * Breakpoints match home's content-driven heights (413 / 480 / 518) so every
- * PageHero renders the same stage height at the same viewport.
+ * Shared banner stage — fixed heights (home source of truth: 413/480/518)
+ * with items-center so the title lockup's vertical midpoint matches the
+ * banner frame midpoint. No asymmetric padding (that would skew the center).
  */
 export const HERO_STAGE_CLASS =
-  "site-wrap relative flex items-end " +
-  "min-h-[25.8125rem] md:min-h-[30rem] lg:min-h-[32.375rem] " +
-  "pb-9 pt-24 md:pb-12 md:pt-28";
+  "site-wrap relative flex items-center " +
+  "h-[25.8125rem] md:h-[30rem] lg:h-[32.375rem]";
 
 /**
  * Shared banner frame - website-banners skill:
